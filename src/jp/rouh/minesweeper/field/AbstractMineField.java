@@ -9,31 +9,24 @@ public abstract class AbstractMineField extends GridField<MineCell, AbstractMine
     private final int openQuota;
     private int flagCount = 0;
     private int openCount = 0;
-    private AbstractMineField(int width, int height, int totalMineCount){
-        super(width, height, MineCell::new);
-        this.totalMineCount = totalMineCount;
-        this.openQuota = width*height - totalMineCount;
+    /* package */ AbstractMineField(Difficulty difficulty){
+        super(difficulty.getWidth(), difficulty.getHeight(), MineCell::new);
+        this.totalMineCount = difficulty.getTotalMineCount();
+        this.openQuota = difficulty.getTotalCellCount() - totalMineCount;
     }
-    AbstractMineField(Difficulty difficulty){
-        this(difficulty.width(), difficulty.height(), difficulty.totalMineCount());
-    }
-    @Override
-    public void setObserver(FieldObserver observer){
-        this.observer = observer;
-    }
-    void detectFlagAdded(int x, int y){
+    /* package */ void detectFlagAdded(int x, int y){
         flagCount++;
         if(observer!=null){
             observer.notifyCellUpdated(x, y);
         }
     }
-    void detectFlagRemoved(int x, int y){
+    /* package */ void detectFlagRemoved(int x, int y){
         flagCount--;
         if(observer!=null){
             observer.notifyCellUpdated(x, y);
         }
     }
-    void detectCellOpened(int x, int y){
+    /* package */ void detectCellOpened(int x, int y){
         openCount++;
         if(observer!=null){
             observer.notifyCellUpdated(x, y);
@@ -42,8 +35,14 @@ public abstract class AbstractMineField extends GridField<MineCell, AbstractMine
             }
         }
     }
-    void detectMineExposed(){
-        observer.notifyFieldExploded();
+    /* package */ void detectMineExposed(){
+        if(observer!=null){
+            observer.notifyFieldExploded();
+        }
+    }
+    @Override
+    public void setObserver(FieldObserver observer){
+        this.observer = observer;
     }
     @Override
     public void open(int x, int y){
@@ -54,7 +53,7 @@ public abstract class AbstractMineField extends GridField<MineCell, AbstractMine
     }
     @Override
     public void stamp(int x, int y){
-        get(x, y).stampOpen();
+        get(x, y).stamp();
     }
     @Override
     public void toggleFlag(int x, int y){

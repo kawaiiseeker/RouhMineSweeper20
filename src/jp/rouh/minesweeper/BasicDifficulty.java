@@ -13,19 +13,19 @@ public enum BasicDifficulty implements Difficulty{
         this.totalMineCount = totalMineCount;
     }
     @Override
-    public int width(){
+    public int getWidth(){
         return width;
     }
     @Override
-    public int height(){
+    public int getHeight(){
         return height;
     }
     @Override
-    public int totalMineCount(){
+    public int getTotalMineCount(){
         return totalMineCount;
     }
     @Override
-    public String difficultyName(){
+    public String getName(){
         return toString();
     }
 

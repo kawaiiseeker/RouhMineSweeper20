@@ -9,7 +9,8 @@ public class FullRandomMineField extends AbstractMineField{
     public FullRandomMineField(Difficulty difficulty){
         super(difficulty);
     }
-    private void generate(){
+    @Override
+    public void generate(int xIgnored, int yIgnored){
         Random random = ThreadLocalRandom.current();
         int mineCount = 0;
         while(mineCount<totalMineCount){
@@ -27,9 +28,5 @@ public class FullRandomMineField extends AbstractMineField{
                 }
             }
         }
-    }
-    @Override
-    public void generate(int x, int y){
-        //ignored
     }
 }

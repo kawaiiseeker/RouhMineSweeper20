@@ -7,7 +7,7 @@ public interface MineSweeper{
     int getHeight();
     int getWidth();
     int getTotalMineCount();
-    int getRemainingMineCount();
+    int getEstimatedRemainingMineCount();
     int getTimeCount();
     boolean isFinished();
     boolean isSecured();

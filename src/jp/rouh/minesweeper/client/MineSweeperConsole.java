@@ -98,7 +98,7 @@ public class MineSweeperConsole implements MineSweeperObserver{
         }
         line.setLength(0);
         line.append("|MINES=");
-        line.append(String.format("%3s", Math.min(game.getRemainingMineCount(), 999)));
+        line.append(String.format("%3s", Math.min(game.getEstimatedRemainingMineCount(), 999)));
         line.append("|COUNT=");
         line.append(String.format("%4s", Math.min(game.getTimeCount(), 9999)));
         line.append("|");
@@ -107,20 +107,20 @@ public class MineSweeperConsole implements MineSweeperObserver{
     @SuppressWarnings("fallthrough")
     private static String textOf(MineCellView view){
         switch(view){
-            case SAFE: return " ";
-            case MC_1: return "1";
-            case MC_2: return "2";
-            case MC_3: return "3";
-            case MC_4: return "4";
-            case MC_5: return "5";
-            case MC_6: return "6";
-            case MC_7: return "7";
-            case MC_8: return "8";
-            case MINE: return "X";
+            case EXPOSED_0: return " ";
+            case EXPOSED_1: return "1";
+            case EXPOSED_2: return "2";
+            case EXPOSED_3: return "3";
+            case EXPOSED_4: return "4";
+            case EXPOSED_5: return "5";
+            case EXPOSED_6: return "6";
+            case EXPOSED_7: return "7";
+            case EXPOSED_8: return "8";
+            case EXPOSED_MINE: return "X";
             case COVERED: return "■";
             case FLAGGED: //fallthrough
-            case UNREVEALED_MINE: return "▼";
-            case INCORRECT_FLAGGED: return "▽";
+            case RESULT_COVERED_MINE: return "▼";
+            case RESULT_FLAGGED_SAFE: return "▽";
             default: return null;
         }
     }

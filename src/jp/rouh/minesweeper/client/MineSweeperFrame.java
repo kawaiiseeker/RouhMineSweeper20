@@ -152,7 +152,7 @@ public class MineSweeperFrame extends MouseAdapter implements MineSweeperObserve
 
     @Override
     public void updateRemainingMineCount(){
-        mineLabel.setText(MINE_LABEL_TEXT+model.getRemainingMineCount());
+        mineLabel.setText(MINE_LABEL_TEXT+model.getEstimatedRemainingMineCount());
     }
     @Override
     public void updateTimeCount(){

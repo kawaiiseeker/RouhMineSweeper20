@@ -33,7 +33,7 @@ abstract class AbstractMineSweeper implements MineSweeper, FieldObserver{
         return field.getTotalMineCount();
     }
     @Override
-    public int getRemainingMineCount(){
+    public int getEstimatedRemainingMineCount(){
         return field.getEstimatedRemainingMineCount();
     }
     @Override

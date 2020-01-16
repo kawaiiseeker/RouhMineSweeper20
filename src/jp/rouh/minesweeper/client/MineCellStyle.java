@@ -50,23 +50,23 @@ enum MineCellStyle{
     }
     static MineCellStyle valueOf(MineCellView view, boolean secured){
         switch(view){
-            case SAFE: return MineCellStyle.SAFE;
-            case MC_1: return MineCellStyle.MC_1;
-            case MC_2: return MineCellStyle.MC_2;
-            case MC_3: return MineCellStyle.MC_3;
-            case MC_4: return MineCellStyle.MC_4;
-            case MC_5: return MineCellStyle.MC_5;
-            case MC_6: return MineCellStyle.MC_6;
-            case MC_7: return MineCellStyle.MC_7;
-            case MC_8: return MineCellStyle.MC_8;
-            case MINE: return MineCellStyle.MINE;
+            case EXPOSED_0: return MineCellStyle.SAFE;
+            case EXPOSED_1: return MineCellStyle.MC_1;
+            case EXPOSED_2: return MineCellStyle.MC_2;
+            case EXPOSED_3: return MineCellStyle.MC_3;
+            case EXPOSED_4: return MineCellStyle.MC_4;
+            case EXPOSED_5: return MineCellStyle.MC_5;
+            case EXPOSED_6: return MineCellStyle.MC_6;
+            case EXPOSED_7: return MineCellStyle.MC_7;
+            case EXPOSED_8: return MineCellStyle.MC_8;
+            case EXPOSED_MINE: return MineCellStyle.MINE;
             case COVERED: return MineCellStyle.COVERED;
             case FLAGGED: return MineCellStyle.FLAGGED;
-            case UNREVEALED_MINE:
+            case RESULT_COVERED_MINE:
                 return secured?
                         MineCellStyle.SECURED_COVERED_MINE:
                         MineCellStyle.EXPLODED_COVERED_MINE;
-            case INCORRECT_FLAGGED:
+            case RESULT_FLAGGED_SAFE:
                 return secured?
                         MineCellStyle.SECURED_FLAGGED:
                         MineCellStyle.INCORRECT_FLAGGED;
