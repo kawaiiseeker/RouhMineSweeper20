@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public abstract class GridField<C extends GridCell<C, F>, F extends GridField<C, F>>{
-    private final int width;
-    private final int height;
+    protected final int width;
+    protected final int height;
     private final Square<C> cells;
     public GridField(int width, int height, Supplier<C> supplier){
         this.width = width;

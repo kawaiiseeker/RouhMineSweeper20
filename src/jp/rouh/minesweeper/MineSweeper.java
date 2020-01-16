@@ -1,5 +1,7 @@
 package jp.rouh.minesweeper;
 
+import jp.rouh.minesweeper.field.MineCellView;
+
 public interface MineSweeper{
     void setObserver(MineSweeperObserver observer);
     int getHeight();

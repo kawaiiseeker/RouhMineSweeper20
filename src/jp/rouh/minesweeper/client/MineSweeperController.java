@@ -23,7 +23,11 @@ public class MineSweeperController implements MineSweeperEventHandler{
     public void doStamp(int x, int y){
         model.stamp(x, y);
     }
+    @Override
+    public void restart(Difficulty difficulty, GenerationPolicy policy){
+
+    }
     public static void main(String[] args){
-        new MineSweeperController(BaseDifficulty.BEGINNER);
+        new MineSweeperController(BasicDifficulty.BEGINNER);
     }
 }

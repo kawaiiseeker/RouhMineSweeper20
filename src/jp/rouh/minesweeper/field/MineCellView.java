@@ -1,4 +1,4 @@
-package jp.rouh.minesweeper;
+package jp.rouh.minesweeper.field;
 
 import java.util.List;
 

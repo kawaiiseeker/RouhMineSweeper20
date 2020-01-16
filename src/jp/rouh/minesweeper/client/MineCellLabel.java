@@ -1,6 +1,6 @@
 package jp.rouh.minesweeper.client;
 
-import jp.rouh.minesweeper.MineCellView;
+import jp.rouh.minesweeper.field.MineCellView;
 
 import javax.swing.*;
 import java.awt.event.MouseListener;

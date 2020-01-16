@@ -4,7 +4,7 @@ public class CustomDifficulty implements Difficulty{
     private final int width;
     private final int height;
     private final int totalMineCount;
-    CustomDifficulty(int width, int height, int totalMineCount){
+    public CustomDifficulty(int width, int height, int totalMineCount){
         this.width = width;
         this.height = height;
         this.totalMineCount = totalMineCount;

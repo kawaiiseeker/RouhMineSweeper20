@@ -3,9 +3,9 @@ package jp.rouh.minesweeper.util;
 import java.util.List;
 
 public abstract class GridCell<C extends GridCell<C, F>, F extends GridField<C, F>>{
-    private int x;
-    private int y;
-    private F parent;
+    protected int x;
+    protected int y;
+    protected F parent;
     /* package */ void setX(int x){
         this.x = x;
     }
@@ -17,9 +17,6 @@ public abstract class GridCell<C extends GridCell<C, F>, F extends GridField<C, 
     }
     public List<C> aroundCells(){
         return parent.aroundCellsFrom(x, y);
-    }
-    protected F getParent(){
-        return parent;
     }
     public int getX(){
         return x;

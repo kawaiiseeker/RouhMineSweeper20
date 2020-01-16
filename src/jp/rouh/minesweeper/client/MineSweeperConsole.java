@@ -1,6 +1,7 @@
 package jp.rouh.minesweeper.client;
 
 import jp.rouh.minesweeper.*;
+import jp.rouh.minesweeper.field.MineCellView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -140,6 +141,6 @@ public class MineSweeperConsole implements MineSweeperObserver{
         //ignored
     }
     public static void main(String[] args){
-        new MineSweeperConsole(new SafeLaunchMineSweeper(BaseDifficulty.BEGINNER));
+        new MineSweeperConsole(new SafeLaunchMineSweeper(BasicDifficulty.BEGINNER));
     }
 }

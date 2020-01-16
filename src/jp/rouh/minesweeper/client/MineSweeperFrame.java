@@ -1,6 +1,6 @@
 package jp.rouh.minesweeper.client;
 
-import jp.rouh.minesweeper.BaseDifficulty;
+import jp.rouh.minesweeper.BasicDifficulty;
 import jp.rouh.minesweeper.Difficulty;
 import jp.rouh.minesweeper.MineSweeper;
 import jp.rouh.minesweeper.MineSweeperObserver;
@@ -49,11 +49,11 @@ public class MineSweeperFrame extends MouseAdapter implements MineSweeperObserve
         top.setSize(CELL_SIZE*width, CELL_SIZE);
         top.setLocation(0, 0);
         difficultyBox = new JComboBox<>();
-        for(Difficulty difficulty:BaseDifficulty.values()){
+        for(Difficulty difficulty: BasicDifficulty.values()){
             difficultyBox.addItem(difficulty.toString());
         }
         difficultyBox.addItem("CUSTOM");
-        difficultyBox.setSelectedItem(BaseDifficulty.BEGINNER); //TODO
+        difficultyBox.setSelectedItem(BasicDifficulty.BEGINNER); //TODO
         restartButton.setMargin(new Insets(0, 5, 0, 5));
         settingButton.setMargin(new Insets(0, 5, 0, 5));
         restartButton.addActionListener(this);

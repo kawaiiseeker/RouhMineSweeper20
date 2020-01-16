@@ -1,8 +1,8 @@
-package jp.rouh.minesweeper;
+package jp.rouh.minesweeper.field;
 
 import jp.rouh.minesweeper.util.GridCell;
 
-public class MineCell extends GridCell<MineCell, MineField>{
+public class MineCell extends GridCell<MineCell, AbstractMineField>{
     private static final int MINE = 9;
     private boolean covered = true;
     private boolean flagged = false;
@@ -17,24 +17,21 @@ public class MineCell extends GridCell<MineCell, MineField>{
     public void removeFlag(){
         if(flagged){
             flagged = false;
-            getParent().decrementFlaggedCount();
-            getParent().update(getX(), getY());
+            parent.detectFlagRemoved(x, y);
         }
     }
     public void buildFlag(){
         if(covered && !flagged){
             flagged = true;
-            getParent().incrementFlaggedCount();
-            getParent().update(getX(), getY());
+            parent.detectFlagAdded(x, y);
         }
     }
     public void open(){
         if(covered && !flagged){
             covered = false;
-            getParent().decrementCoveredCount();
-            getParent().update(getX(), getY());
+            parent.detectCellOpened(x, y);
             if(this.isMine()){
-                getParent().explode();
+                parent.detectMineExposed();
             }else if(this.isSafe()){
                 aroundCells().forEach(MineCell::open);
             }
