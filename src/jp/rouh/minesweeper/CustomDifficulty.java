@@ -21,4 +21,8 @@ public class CustomDifficulty implements Difficulty{
     public int totalMineCount(){
         return totalMineCount;
     }
+    @Override
+    public String difficultyName(){
+        return "CUSTOM";
+    }
 }
