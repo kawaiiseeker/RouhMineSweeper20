@@ -7,22 +7,22 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 enum MineCellStyle{
-    SAFE("　", Color.WHITE, true),
-    MC_1("１", new Color(51, 102, 204), true),
-    MC_2("２", new Color(0, 153, 51), true),
-    MC_3("３", new Color(204, 51, 0), true),
-    MC_4("４", new Color(0, 51, 153), true),
-    MC_5("５", new Color(102, 0, 0), true),
-    MC_6("６", new Color(31, 184, 133), true),
-    MC_7("７", new Color(204, 0, 51), true),
-    MC_8("８", new Color(30, 0, 0), true),
-    MINE("※", Color.RED, true),
+    EXPOSED_0("　", Color.WHITE, true),
+    EXPOSED_1("１", new Color(51, 102, 204), true),
+    EXPOSED_2("２", new Color(0, 153, 51), true),
+    EXPOSED_3("３", new Color(204, 51, 0), true),
+    EXPOSED_4("４", new Color(0, 51, 153), true),
+    EXPOSED_5("５", new Color(102, 0, 0), true),
+    EXPOSED_6("６", new Color(31, 184, 133), true),
+    EXPOSED_7("７", new Color(204, 0, 51), true),
+    EXPOSED_8("８", new Color(30, 0, 0), true),
+    EXPOSED_MINE("※", Color.RED, true),
     COVERED("　", Color.WHITE, false),
     SECURED_COVERED_MINE("❌", Color.BLACK, false),
     EXPLODED_COVERED_MINE("❌", Color.WHITE, false),
     FLAGGED("🚩", Color.RED, false),
     SECURED_FLAGGED("🚩", Color.BLACK, false),
-    INCORRECT_FLAGGED("🚩", Color.WHITE, false);
+    EXPLODED_FLAGGED_SAFE("🚩", Color.RED, false);
     private static final Color REMOVED_COLOR = new Color(140, 200, 140);
     private static final Color TARGETED_COLOR = new Color(70, 160, 70);
     private static final Color COVERED_COLOR = new Color(30, 120, 30);
@@ -48,18 +48,24 @@ enum MineCellStyle{
     Border getBorder(){
         return removed? LOWERED_BORDER:RAISED_BORDER;
     }
-    static MineCellStyle valueOf(MineCellView view, boolean secured){
+    static MineCellStyle of(MineCellView view){
+        return valueOf(view, false);
+    }
+    static MineCellStyle ofSecured(MineCellView view){
+        return valueOf(view, true);
+    }
+    private static MineCellStyle valueOf(MineCellView view, boolean secured){
         switch(view){
-            case EXPOSED_0: return MineCellStyle.SAFE;
-            case EXPOSED_1: return MineCellStyle.MC_1;
-            case EXPOSED_2: return MineCellStyle.MC_2;
-            case EXPOSED_3: return MineCellStyle.MC_3;
-            case EXPOSED_4: return MineCellStyle.MC_4;
-            case EXPOSED_5: return MineCellStyle.MC_5;
-            case EXPOSED_6: return MineCellStyle.MC_6;
-            case EXPOSED_7: return MineCellStyle.MC_7;
-            case EXPOSED_8: return MineCellStyle.MC_8;
-            case EXPOSED_MINE: return MineCellStyle.MINE;
+            case EXPOSED_0: return MineCellStyle.EXPOSED_0;
+            case EXPOSED_1: return MineCellStyle.EXPOSED_1;
+            case EXPOSED_2: return MineCellStyle.EXPOSED_2;
+            case EXPOSED_3: return MineCellStyle.EXPOSED_3;
+            case EXPOSED_4: return MineCellStyle.EXPOSED_4;
+            case EXPOSED_5: return MineCellStyle.EXPOSED_5;
+            case EXPOSED_6: return MineCellStyle.EXPOSED_6;
+            case EXPOSED_7: return MineCellStyle.EXPOSED_7;
+            case EXPOSED_8: return MineCellStyle.EXPOSED_8;
+            case EXPOSED_MINE: return MineCellStyle.EXPOSED_MINE;
             case COVERED: return MineCellStyle.COVERED;
             case FLAGGED: return MineCellStyle.FLAGGED;
             case RESULT_COVERED_MINE:
@@ -69,8 +75,8 @@ enum MineCellStyle{
             case RESULT_FLAGGED_SAFE:
                 return secured?
                         MineCellStyle.SECURED_FLAGGED:
-                        MineCellStyle.INCORRECT_FLAGGED;
+                        MineCellStyle.EXPLODED_FLAGGED_SAFE;
         }
-        throw new IllegalArgumentException("implementation error");
+        throw new IllegalArgumentException("unexpected out of switch statement");
     }
 }

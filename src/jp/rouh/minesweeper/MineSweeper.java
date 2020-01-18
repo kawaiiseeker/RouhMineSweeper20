@@ -16,4 +16,5 @@ public interface MineSweeper{
     void stamp(int x, int y);
     void toggleFlag(int x, int y);
     MineCellView getView(int x, int y);
+    String getDifficultyName();
 }

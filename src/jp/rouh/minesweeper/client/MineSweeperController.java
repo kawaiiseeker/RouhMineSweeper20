@@ -2,32 +2,37 @@ package jp.rouh.minesweeper.client;
 
 import jp.rouh.minesweeper.*;
 
+import java.util.function.Function;
+
 public class MineSweeperController implements MineSweeperEventHandler{
     private MineSweeper model;
     private MineSweeperFrame view;
-    public MineSweeperController(Difficulty difficulty){
-        model = new SafeLaunchMineSweeper(difficulty);
-        view = new MineSweeperFrame(model);
+    private Function<Difficulty, MineSweeper> modelFactory;
+    public MineSweeperController(Function<Difficulty, MineSweeper> modelFactory, Difficulty difficulty){
+        this.modelFactory = modelFactory;
+        model = modelFactory.apply(difficulty);
+        view = new MineSweeperFrame(model, this);
         model.setObserver(view);
-        view.setHandler(this);
     }
     @Override
-    public void doOpen(int x, int y){
-        model.open(x, y);
-    }
-    @Override
-    public void doFlag(int x, int y){
+    public void cellRightClicked(int x, int y){
         model.toggleFlag(x, y);
     }
     @Override
-    public void doStamp(int x, int y){
+    public void cellLeftClicked(int x, int y){
+        model.open(x, y);
+    }
+    @Override
+    public void cellDoubleClicked(int x, int y){
         model.stamp(x, y);
     }
     @Override
-    public void restart(Difficulty difficulty, GenerationPolicy policy){
-
+    public void restartButtonPressed(){
+        model = modelFactory.apply(view.getSelectedDifficulty());
+        model.setObserver(view);
+        view.updateModel(model);
     }
     public static void main(String[] args){
-        new MineSweeperController(BasicDifficulty.BEGINNER);
+        new MineSweeperController(SafeLaunchMineSweeper::new, BasicDifficulty.BEGINNER);
     }
 }

@@ -4,16 +4,20 @@ import jp.rouh.minesweeper.field.FieldObserver;
 import jp.rouh.minesweeper.field.MineCellView;
 import jp.rouh.minesweeper.field.MineField;
 
+import java.util.function.Function;
+
 abstract class AbstractMineSweeper implements MineSweeper, FieldObserver{
     private MineSweeperObserver observer;
-    private MineField field;
+    private final String difficultyName;
+    private final MineField field;
     private int timeCount = 0;
     private Status status = Status.RUNNING;
     private enum Status{
         RUNNING, EXPLODED, SECURED
     }
-    AbstractMineSweeper(MineField field){
-        this.field = field;
+    AbstractMineSweeper(Difficulty difficulty, Function<Difficulty, MineField> mineFieldFactory){
+        this.difficultyName = difficulty.getName();
+        this.field = mineFieldFactory.apply(difficulty);
         this.field.setObserver(this);
     }
     @Override
@@ -80,12 +84,18 @@ abstract class AbstractMineSweeper implements MineSweeper, FieldObserver{
                 field.getResultView(x, y):
                 field.getView(x, y);
     }
+    @Override
+    public String getDifficultyName(){
+        return difficultyName;
+    }
     private void startCounting(){
         new Thread(()->{
             try{
                 while(!isFinished()){
                     timeCount++;
-                    observer.updateTimeCount();
+                    if(observer!=null){
+                        observer.updateTimeCount();
+                    }
                     Thread.sleep(1000);
                 }
             }catch(InterruptedException e){
