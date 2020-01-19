@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public abstract class GridField<C extends GridCell<C, F>, F extends GridField<C, F>>{
-    protected final int width;
-    protected final int height;
+    private final int width;
+    private final int height;
     private final Square<C> cells;
     public GridField(int width, int height, Supplier<C> supplier){
         this.width = width;
@@ -59,5 +59,11 @@ public abstract class GridField<C extends GridCell<C, F>, F extends GridField<C,
         if(!hasRange(x, y)){
             throw new IllegalArgumentException("out of range: ("+x+", "+y+")");
         }
+    }
+    public int getHeight(){
+        return height;
+    }
+    public int getWidth(){
+        return width;
     }
 }

@@ -1,6 +1,7 @@
 package jp.rouh.minesweeper.client;
 
 import jp.rouh.minesweeper.*;
+import jp.rouh.minesweeper.field.GenerationPolicy;
 import jp.rouh.minesweeper.field.MineCellView;
 
 import java.io.BufferedReader;
@@ -98,7 +99,7 @@ public class MineSweeperConsole implements MineSweeperObserver{
         }
         line.setLength(0);
         line.append("|MINES=");
-        line.append(String.format("%3s", Math.min(game.getEstimatedRemainingMineCount(), 999)));
+        line.append(String.format("%3s", Math.min(game.getRemainingMineCount(), 999)));
         line.append("|COUNT=");
         line.append(String.format("%4s", Math.min(game.getTimeCount(), 9999)));
         line.append("|");
@@ -141,6 +142,6 @@ public class MineSweeperConsole implements MineSweeperObserver{
         //ignored
     }
     public static void main(String[] args){
-        new MineSweeperConsole(new SafeLaunchMineSweeper(BasicDifficulty.BEGINNER));
+        new MineSweeperConsole(new StandardMineSweeper(BasicDifficulty.BEGINNER, GenerationPolicy.SAFE_LAUNCH));
     }
 }

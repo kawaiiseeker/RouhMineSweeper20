@@ -1,6 +1,7 @@
 package jp.rouh.minesweeper.client;
 
 import jp.rouh.minesweeper.*;
+import jp.rouh.minesweeper.field.GenerationPolicy;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +9,8 @@ import java.awt.event.*;
 import java.util.function.BiConsumer;
 
 public class MineSweeperFrame extends JFrame implements MouseListener, MineSweeperObserver{
+    public static final Difficulty DEFAULT_DIFFICULTY = BasicDifficulty.BEGINNER;
+    public static final GenerationPolicy DEFAULT_GENERATION_POLICY = GenerationPolicy.SAFE_LAUNCH;
     private static final String TIME_LABEL_TEXT = "TIME: ";
     private static final String MINE_LABEL_TEXT = "MINE: ";
     public static final int CELL_SIZE = 30;
@@ -19,7 +22,8 @@ public class MineSweeperFrame extends JFrame implements MouseListener, MineSweep
     private JLabel timeLabel = new JLabel();
     private JLabel mineLabel = new JLabel();
     private JLabel messageLabel = new JLabel();
-    private CustomDifficulty customDifficulty = CustomDifficulty.getMinimum();
+    private GenerationPolicy generationPolicy = DEFAULT_GENERATION_POLICY;
+    private Difficulty customDifficulty = DEFAULT_DIFFICULTY;
     private MineSweeperEventHandler handler;
     private MineSweeper model;
     private int width;
@@ -28,7 +32,7 @@ public class MineSweeperFrame extends JFrame implements MouseListener, MineSweep
     private int currentMouseY = -1;
     private boolean leftClick = false;
     private boolean rightClick = false;
-    MineSweeperFrame(MineSweeper model, MineSweeperEventHandler handler){
+    MineSweeperFrame(MineSweeperEventHandler handler){
         this.handler = handler;
         setTitle("MineSweeper");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -36,7 +40,7 @@ public class MineSweeperFrame extends JFrame implements MouseListener, MineSweep
         setResizable(false);
         topPanel.setLocation(0, 0);
         difficultyBox = new JComboBox<>(DifficultyOption.values());
-        difficultyBox.setSelectedItem(DifficultyOption.BEGINNER);
+        difficultyBox.setSelectedItem(DEFAULT_DIFFICULTY);
         JButton restartButton = new JButton("RESTART");
         JButton settingButton = new JButton("SETTING");
         restartButton.setMargin(new Insets(0, 5, 0, 5));
@@ -51,7 +55,6 @@ public class MineSweeperFrame extends JFrame implements MouseListener, MineSweep
         bottomPanel.add(mineLabel);
         bottomPanel.add(timeLabel);
         bottomPanel.add(messageLabel);
-        updateModel(model);
         add(topPanel);
         add(fieldPanel);
         add(bottomPanel);
@@ -94,7 +97,7 @@ public class MineSweeperFrame extends JFrame implements MouseListener, MineSweep
     // implement interface MineSweeperObserver
     @Override
     public void updateRemainingMineCount(){
-        mineLabel.setText(MINE_LABEL_TEXT+model.getEstimatedRemainingMineCount());
+        mineLabel.setText(MINE_LABEL_TEXT+model.getRemainingMineCount());
     }
     @Override
     public void updateTimeCount(){
@@ -182,21 +185,20 @@ public class MineSweeperFrame extends JFrame implements MouseListener, MineSweep
         private JTextField hInputField;
         private JTextField wInputField;
         private JTextField mInputField;
+        private JComboBox<GenerationPolicy> generationPolicyBox;
         private SettingDialog(){
             setTitle("Settings");
             setModal(true);
             setLocationRelativeTo(null);
             setResizable(false);
-            JPanel containerPanel = new JPanel();
+            var containerPanel = new JPanel();
             containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
-            JPanel generationPolicyPanel = new JPanel();
+            var generationPolicyPanel = new JPanel();
             generationPolicyPanel.setSize(CELL_SIZE*8, CELL_SIZE);
             generationPolicyPanel.setBorder(BorderFactory.createTitledBorder("generation policy"));
             generationPolicyPanel.add(new JLabel("policy"));
-            JComboBox<String> generationPolicyBox = new JComboBox<>();
-            generationPolicyBox.addItem("eager random");
-            generationPolicyBox.addItem("lazy random");
-            generationPolicyBox.addItem("solvable");
+            generationPolicyBox = new JComboBox<>(GenerationPolicy.values());
+            generationPolicyBox.setSelectedItem(DEFAULT_GENERATION_POLICY);
             generationPolicyPanel.add(generationPolicyBox);
             JPanel customDifficultyPanel = new JPanel();
             customDifficultyPanel.setSize(CELL_SIZE*8, CELL_SIZE);
@@ -301,6 +303,7 @@ public class MineSweeperFrame extends JFrame implements MouseListener, MineSweep
             }
             if(heightValid && widthValid && mineValid){
                 customDifficulty = new CustomDifficulty(widthValue, heightValue, mineValue);
+                generationPolicy = (GenerationPolicy)generationPolicyBox.getSelectedItem();
                 dispose();
             }else{
                 JOptionPane.showMessageDialog(this, message);
@@ -309,13 +312,17 @@ public class MineSweeperFrame extends JFrame implements MouseListener, MineSweep
     }
     /* package */ Difficulty getSelectedDifficulty(){
         DifficultyOption option = (DifficultyOption)difficultyBox.getSelectedItem();
-        assert option!=null;
-        switch(option){
-            case BEGINNER: return BasicDifficulty.BEGINNER;
-            case INTERMEDIATE: return BasicDifficulty.INTERMEDIATE;
-            case ADVANCED: return BasicDifficulty.ADVANCED;
-            default:
-            case CUSTOM: return customDifficulty;
+        if(option!=null){
+            switch(option){
+                case BEGINNER: return BasicDifficulty.BEGINNER;
+                case INTERMEDIATE: return BasicDifficulty.INTERMEDIATE;
+                case ADVANCED: return BasicDifficulty.ADVANCED;
+                case CUSTOM: return customDifficulty;
+            }
         }
+        return DEFAULT_DIFFICULTY;
+    }
+    /* package */ GenerationPolicy getSelectedGenerationPolicy(){
+        return generationPolicy;
     }
 }

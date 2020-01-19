@@ -7,7 +7,7 @@ public interface MineSweeper{
     int getHeight();
     int getWidth();
     int getTotalMineCount();
-    int getEstimatedRemainingMineCount();
+    int getRemainingMineCount();
     int getTimeCount();
     boolean isFinished();
     boolean isSecured();
@@ -16,5 +16,4 @@ public interface MineSweeper{
     void stamp(int x, int y);
     void toggleFlag(int x, int y);
     MineCellView getView(int x, int y);
-    String getDifficultyName();
 }

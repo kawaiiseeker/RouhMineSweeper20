@@ -22,7 +22,7 @@ enum MineCellStyle{
     EXPLODED_COVERED_MINE("❌", Color.WHITE, false),
     FLAGGED("🚩", Color.RED, false),
     SECURED_FLAGGED("🚩", Color.BLACK, false),
-    EXPLODED_FLAGGED_SAFE("🚩", Color.RED, false);
+    EXPLODED_FLAGGED_SAFE("🚩", Color.WHITE, false);
     private static final Color REMOVED_COLOR = new Color(140, 200, 140);
     private static final Color TARGETED_COLOR = new Color(70, 160, 70);
     private static final Color COVERED_COLOR = new Color(30, 120, 30);

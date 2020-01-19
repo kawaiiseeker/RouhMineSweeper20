@@ -2,7 +2,7 @@ package jp.rouh.minesweeper.field;
 
 import jp.rouh.minesweeper.util.GridCell;
 
-public class MineCell extends GridCell<MineCell, AbstractMineField>{
+public class MineCell extends GridCell<MineCell, MineField>{
     private static final int MINE = 9;
     private boolean covered = true;
     private boolean flagged = false;
@@ -11,20 +11,20 @@ public class MineCell extends GridCell<MineCell, AbstractMineField>{
         if(covered){
             if(flagged){
                 flagged = false;
-                parent.detectFlagRemoved(x, y);
+                parent.flagRemoved(x, y);
             }else{
                 flagged = true;
-                parent.detectFlagAdded(x, y);
+                parent.flagAdded(x, y);
             }
         }
     }
     /* package */ void open(){
         if(covered && !flagged){
             covered = false;
-            parent.detectCellOpened(x, y);
+            parent.cellOpened(x, y);
             if(this.isMine()){
-                parent.detectMineExposed();
-            }else if(this.isSafe()){
+                parent.fieldExploded();
+            }else if(value==0){
                 aroundCells().forEach(MineCell::open);
             }
         }
@@ -37,13 +37,15 @@ public class MineCell extends GridCell<MineCell, AbstractMineField>{
             }
         }
     }
+    /* package */ boolean isMine(){
+        return value==MINE;
+    }
     /* package */ void setMine(){
         value = MINE;
     }
     /* package */ void setMineCount(){
         value = aroundMineCount();
     }
-
     public MineCellView getView(){
         if(flagged) return MineCellView.FLAGGED;
         if(covered) return MineCellView.COVERED;
@@ -51,20 +53,11 @@ public class MineCell extends GridCell<MineCell, AbstractMineField>{
         return MineCellView.mineCountOf(value);
     }
     public MineCellView getResultView(){
-        if(covered && isMine()) return MineCellView.RESULT_COVERED_MINE;
-        if(flagged && !isMine()) return MineCellView.RESULT_FLAGGED_SAFE;
+        if(!isMine() && flagged) return MineCellView.RESULT_FLAGGED_SAFE;
+        if(isMine() && !flagged && covered) return MineCellView.RESULT_COVERED_MINE;
         return getView();
     }
-    /* package */ boolean isSafe(){
-        return value==0;
-    }
-    /* package */ boolean isMine(){
-        return value==MINE;
-    }
-    /* package */ boolean isCovered(){
-        return covered;
-    }
-    /* package */ boolean isFlagged(){
+    private boolean isFlagged(){
         return flagged;
     }
     private int aroundMineCount(){
