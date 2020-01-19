@@ -24,9 +24,5 @@ public enum BasicDifficulty implements Difficulty{
     public int getTotalMineCount(){
         return totalMineCount;
     }
-    @Override
-    public String getName(){
-        return toString();
-    }
 
 }

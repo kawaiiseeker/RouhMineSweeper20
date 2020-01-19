@@ -7,5 +7,4 @@ public interface Difficulty{
     default int getTotalCellCount(){
         return getWidth()*getHeight();
     }
-    String getName();
 }

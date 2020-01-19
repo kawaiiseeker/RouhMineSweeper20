@@ -34,11 +34,4 @@ public class CustomDifficulty implements Difficulty{
     public int getTotalMineCount(){
         return totalMineCount;
     }
-    @Override
-    public String getName(){
-        return "CUSTOM";
-    }
-    public static CustomDifficulty getMinimum(){
-        return new CustomDifficulty(MIN_WIDTH, MIN_HEIGHT, 1);
-    }
 }
