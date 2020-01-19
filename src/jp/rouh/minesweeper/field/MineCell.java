@@ -2,7 +2,7 @@ package jp.rouh.minesweeper.field;
 
 import jp.rouh.minesweeper.util.GridCell;
 
-public class MineCell extends GridCell<MineCell, MineField>{
+class MineCell extends GridCell<MineCell, MineField>{
     private static final int MINE = 9;
     private boolean covered = true;
     private boolean flagged = false;
@@ -46,13 +46,13 @@ public class MineCell extends GridCell<MineCell, MineField>{
     /* package */ void setMineCount(){
         value = aroundMineCount();
     }
-    public MineCellView getView(){
+    /* package */ MineCellView getView(){
         if(flagged) return MineCellView.FLAGGED;
         if(covered) return MineCellView.COVERED;
         if(isMine()) return MineCellView.EXPOSED_MINE;
         return MineCellView.mineCountOf(value);
     }
-    public MineCellView getResultView(){
+    /* package */ MineCellView getResultView(){
         if(!isMine() && flagged) return MineCellView.RESULT_FLAGGED_SAFE;
         if(isMine() && !flagged && covered) return MineCellView.RESULT_COVERED_MINE;
         return getView();

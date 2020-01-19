@@ -8,6 +8,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.function.BiConsumer;
 
+/**
+ * マインスイーパアプリケーションのビューを担うクラス
+ */
 public class MineSweeperFrame extends JFrame implements MouseListener, MineSweeperObserver{
     public static final Difficulty DEFAULT_DIFFICULTY = BasicDifficulty.BEGINNER;
     public static final GenerationPolicy DEFAULT_GENERATION_POLICY = GenerationPolicy.SAFE_LAUNCH;

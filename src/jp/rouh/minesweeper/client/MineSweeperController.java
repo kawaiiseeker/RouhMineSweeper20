@@ -5,6 +5,9 @@ import jp.rouh.minesweeper.field.GenerationPolicy;
 
 import java.util.function.BiFunction;
 
+/**
+ * マインスイーパアプリケーションのコントローラを担うクラス
+ */
 public class MineSweeperController implements MineSweeperEventHandler{
     private MineSweeper model;
     private MineSweeperFrame view;

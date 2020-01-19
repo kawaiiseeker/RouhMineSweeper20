@@ -6,10 +6,16 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Square インターフェースの実装クラス
+ */
 public class ArraySquare<E> implements Square<E>{
     private final int width;
     private final int height;
     private final Object[][] values;
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(Supplier<? extends E> factory){
         for(int i = 0; i<height; i++){
@@ -18,6 +24,9 @@ public class ArraySquare<E> implements Square<E>{
             }
         }
     }
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(BiFunction<Integer, Integer, ? extends E> factory){
         for(int i = 0; i<height; i++){
@@ -26,6 +35,11 @@ public class ArraySquare<E> implements Square<E>{
             }
         }
     }
+    /**
+     * コンストラクタ
+     * @param width 横幅
+     * @param height 縦幅
+     */
     public ArraySquare(int width, int height){
         this.width = width;
         this.height = height;
@@ -34,12 +48,18 @@ public class ArraySquare<E> implements Square<E>{
     private E get(int index){
         return get(index%width, index/width);
     }
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @SuppressWarnings("unchecked")
     public E get(int x, int y){
         requireWithinRange(x, y);
         return (E) values[y][x];
     }
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<E> col(int x){
         requireWithinRange(x, 0);
@@ -47,6 +67,9 @@ public class ArraySquare<E> implements Square<E>{
                 .mapToObj(y->get(x, y))
                 .collect(Collectors.toList());
     }
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<E> row(int y){
         requireWithinRange(0, y);
@@ -54,11 +77,17 @@ public class ArraySquare<E> implements Square<E>{
                 .mapToObj(x->get(x, y))
                 .collect(Collectors.toList());
     }
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void set(int x, int y, E element){
         requireWithinRange(x, y);
         values[y][x] = element;
     }
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<E> unfold(){
         return IntStream.range(0, width*height)
